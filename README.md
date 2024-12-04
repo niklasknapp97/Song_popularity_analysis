@@ -263,7 +263,7 @@ plt.show()
     
 
 
-#### Insights
+#### **Insights**
 
 The histogram provides the following insights:
 
@@ -323,7 +323,7 @@ plt.show()
     
 
 
-#### Insights
+#### **Insights**
 
 This line chart shows the trends in **minimum**, **maximum**, and **average** popularity of songs over the years. Here are the key observations:
 
@@ -372,20 +372,13 @@ plt.grid(True)
 plt.show()
 ```
 
-    /tmp/ipykernel_1697/3973940101.py:8: FutureWarning: 
-    
-    Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
-    
-      sns.boxplot(x='popularity_category', y='danceability', data=df, palette='Set2')
-
-
 
     
 ![png](exploration_files/exploration_17_1.png)
     
 
 
-#### Insights from the Danceability Distribution by Popularity Category Plot
+#### **Insights**
 
 This box plot shows the distribution of **danceability** scores across three song popularity categories: **Low**, **Medium**, and **High**. Here are the key observations:
 
@@ -433,18 +426,38 @@ plt.grid(True)
 plt.show()
 ```
 
-    /tmp/ipykernel_1697/2477161046.py:8: FutureWarning: 
-    
-    Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
-    
-      sns.violinplot(x='popularity_category', y='acousticness', data=df, palette='Set2')
 
 
-
-    
 ![png](exploration_files/exploration_20_1.png)
     
 
+
+#### **Insights**
+
+This violin plot shows the distribution of **acousticness** scores across three song popularity categories: **Low**, **Medium**, and **High**. Here are the key observations:
+
+1. **Diverse Acousticness in Low Popularity**  
+   - Songs in the **Low** popularity category exhibit the widest distribution of acousticness scores, ranging from very low to very high.  
+   - This suggests that low popularity songs do not have a specific preference for acoustic or non-acoustic qualities.
+
+2. **Medium Popularity and Moderate Trends**  
+   - The **Medium** popularity category shows a slightly narrower distribution compared to Low popularity.  
+   - There is a noticeable concentration around lower acousticness values, though the spread remains moderate.
+
+3. **Low Acousticness for High Popularity**  
+   - Songs in the **High** popularity category tend to have lower acousticness scores, with a narrower distribution.  
+   - This indicates that highly popular songs are generally less acoustic in nature.
+
+4. **Negative Correlation with Popularity**  
+   - There seems to be a negative trend where higher popularity is associated with lower acousticness.  
+   - This may reflect mainstream preferences for less acoustic and more synthetic or energetic sounds.
+
+5. **Analysis Directions**  
+   - Investigate whether this trend varies across different genres to understand its genre-dependence.  
+   - Explore the interaction of acousticness with features like `energy` or `danceability` in determining song popularity.  
+   - Conduct a regression analysis to measure the impact of acousticness on popularity predictions.
+
+This plot emphasizes the potential influence of acousticness on song popularity, suggesting that less acoustic songs are more likely to achieve higher popularity levels.
 
 ## **4. Clustering Songs Using K-Means**
 
@@ -505,99 +518,108 @@ plt.title('Elbow Method')
 plt.xlabel('Number of Clusters (k)')
 plt.ylabel('Inertia')
 plt.show()
+```
 
+
+    
+![png](exploration_files/exploration_24_0.png)
+    
+
+
+#### **Insights**
+
+This plot illustrates the **Elbow Method**, used to determine the optimal number of clusters (**k**) for a clustering algorithm. The x-axis represents the number of clusters, and the y-axis shows the **inertia** (sum of squared distances to the nearest cluster center). Here are the key observations:
+
+1. **Sharp Decrease in Inertia**  
+   - There is a steep drop in inertia as the number of clusters increases from 1 to 4.  
+   - This indicates that adding clusters significantly improves the grouping of data points up to this point.
+
+2. **Elbow Point Around k = 4**  
+   - The plot shows a noticeable "elbow" at **k = 4**, where the rate of decrease in inertia slows down.  
+   - This suggests that 4 clusters might be the optimal choice, balancing compactness and simplicity.
+
+3. **Diminishing Returns Beyond k = 4**  
+   - Beyond **k = 4**, the reduction in inertia becomes smaller with each additional cluster.  
+   - This indicates that adding more clusters may lead to overfitting without substantial gains in data separation.
+
+4. **Analysis Directions**  
+   - Validate the choice of **k = 4** using additional metrics like silhouette score or gap statistic.  
+   - Explore the characteristics of each cluster to ensure meaningful groupings.  
+   - Investigate how the clustering results align with the underlying data structure or domain-specific insights.
+
+This Elbow Method plot effectively highlights the trade-off between the number of clusters and inertia, with **k = 4** emerging as a strong candidate for the optimal cluster count.
+
+
+```python
 # Step 3: Apply K-Means with the chosen number of clusters
-optimal_k = 5  # Set based on the elbow plot
+optimal_k = 4  # Set based on the elbow plot
 kmeans = KMeans(n_clusters=optimal_k, random_state=42)
 df['cluster'] = kmeans.fit_predict(X_scaled)
 
 # Step 4: Visualize the clusters
 # Example: Pair plot with clusters
-#sns.pairplot(df, vars=features, hue='cluster', palette='viridis', diag_kind='kde')
-#plt.suptitle('Clusters of Songs', y=1.02)
-#plt.show()
+sns.pairplot(df, vars=features, hue='cluster', palette='viridis', diag_kind='kde')
+plt.suptitle('Clusters of Songs', y=1.02)
+plt.show()
 
 # Step 5: Analyze clusters
 # Get the mean of each feature for every cluster
-#cluster_analysis = df.groupby('cluster')[features].mean()
-#print(cluster_analysis)
-
-# Save the clustered data to a CSV
-#df.to_csv('export/clustered_songs.csv', index=False)
+cluster_analysis = df.groupby('cluster')[features].mean()
+print(cluster_analysis)
 ```
 
 
     
-![png](exploration_files/exploration_23_0.png)
+![png](exploration_files/exploration_26_0.png)
     
 
 
-### **Results**
+             danceability    energy  acousticness  instrumentalness
+    cluster                                                        
+    0            0.575284  0.787571      0.106908          0.030161
+    1            0.546897  0.434905      0.695169          0.028189
+    2            0.367313  0.188485      0.878752          0.841830
+    3            0.554556  0.780023      0.074712          0.775537
 
-This clustering analysis groups songs into five distinct clusters based on their **danceability**, **energy**, **acousticness**, and **instrumentalness**. Below is an interpretation of the key characteristics and possible insights from each cluster.
 
-#### **Cluster Summaries**
-##### **Cluster 0**: **Energetic and Danceable Tracks**
-- **Danceability:** 0.704 (High)
-- **Energy:** 0.714 (High)
-- **Acousticness:** 0.190 (Low)
-- **Instrumentalness:** 0.031 (Low)
-- **Interpretation:**
-  - Songs in this cluster are highly energetic and danceable, with minimal acoustic or instrumental elements.
-  - Likely represents **upbeat pop**, **dance music**, or **electronic genres**.
-  - Suitable for activities like parties or workouts.
+#### **Insights**
 
-##### **Cluster 1**: **Acoustic and Balanced**
-- **Danceability:** 0.518 (Moderate)
-- **Energy:** 0.405 (Moderate-Low)
-- **Acousticness:** 0.735 (High)
-- **Instrumentalness:** 0.030 (Low)
-- **Interpretation:**
-  - This cluster represents moderately danceable and less energetic tracks with a strong acoustic component.
-  - Likely includes **folk**, **indie acoustic**, or **ballads**.
-  - Ideal for relaxing or casual listening.
+This pair plot illustrates the clusters of songs based on audio features: **danceability**, **energy**, **acousticness**, and **instrumentalness**, with the following key observations from the clustering results:
 
-##### **Cluster 2**: **Soft and Instrumental**
-- **Danceability:** 0.369 (Low)
-- **Energy:** 0.189 (Very Low)
-- **Acousticness:** 0.878 (Very High)
-- **Instrumentalness:** 0.854 (Very High)
-- **Interpretation:**
-  - Cluster 2 contains soft, highly acoustic, and predominantly instrumental songs.
-  - Common genres could include **classical music**, **ambient tracks**, or **instrumental soundtracks**.
-  - Suitable for studying, meditation, or background music.
+1. **Cluster Characteristics**  
+   - **Cluster 0:**  
+     - High energy (0.788) and moderate danceability (0.575).  
+     - Low acousticness (0.107) and minimal instrumentalness (0.030).  
+     - Likely represents high-energy songs, possibly pop or electronic music.  
+   - **Cluster 1:**  
+     - Moderate danceability (0.547) and energy (0.435).  
+     - High acousticness (0.695) but low instrumentalness (0.028).  
+     - Suggests more acoustic or singer-songwriter style tracks.  
+   - **Cluster 2:**  
+     - Low danceability (0.367) and energy (0.188).  
+     - Very high acousticness (0.879) and instrumentalness (0.842).  
+     - Represents instrumental and calm acoustic tracks.  
+   - **Cluster 3:**  
+     - Moderate danceability (0.555) and high energy (0.780).  
+     - Very low acousticness (0.075) but high instrumentalness (0.776).  
+     - Likely comprises instrumental tracks with an upbeat, energetic feel.
 
-##### **Cluster 3**: **Energetic and Non-Acoustic**
-- **Danceability:** 0.426 (Low-Moderate)
-- **Energy:** 0.848 (Very High)
-- **Acousticness:** 0.059 (Very Low)
-- **Instrumentalness:** 0.052 (Low)
-- **Interpretation:**
-  - Tracks in this cluster are highly energetic but not particularly danceable or acoustic.
-  - Likely includes **hard rock**, **electronic music**, or **high-energy alternative**.
-  - Perfect for high-intensity workouts or motivational moments.
+2. **Feature Distribution**  
+   - **Energy:** Clusters 0 and 3 show higher energy, distinguishing them from clusters 1 and 2.  
+   - **Instrumentalness:** Clusters 2 and 3 have significantly higher instrumentalness compared to clusters 0 and 1.  
+   - **Acousticness:** Cluster 2 is dominated by acoustic tracks, while cluster 0 and 3 lean towards non-acoustic styles.  
+   - **Danceability:** The clusters are fairly consistent in danceability, except for Cluster 2, which has noticeably lower values.
 
-##### **Cluster 4**: **Danceable and Instrumental**
-- **Danceability:** 0.566 (Moderate-High)
-- **Energy:** 0.777 (High)
-- **Acousticness:** 0.077 (Low)
-- **Instrumentalness:** 0.796 (High)
-- **Interpretation:**
-  - Songs in this cluster combine danceable rhythms with a significant instrumental component.
-  - Could represent **instrumental electronic music**, **dance tracks**, or **movie soundtracks**.
-  - Ideal for dynamic yet focused activities like working or driving.
+3. **Cluster Overlap**  
+   - Clusters overlap in terms of **danceability** and **energy**, particularly between clusters 0 and 3.  
+   - Clear separation is visible in **acousticness** and **instrumentalness**, distinguishing cluster 2 and 3 from the rest.
 
-#### **General Observations**
-- **Energy vs. Acousticness:**
-  - Clusters with high energy (Clusters 0, 3, 4) tend to have lower acousticness, suggesting a trade-off between these attributes.
-  - Conversely, Clusters 1 and 2 have higher acousticness and lower energy, likely reflecting softer, acoustic tracks.
+4. **Analysis Directions**  
+   - Investigate the popularity or genres associated with each cluster.  
+   - Explore temporal trends (e.g., how clusters shift over time in music).  
+   - Assess correlations between clusters and external factors, such as playlist type or listener demographics.
 
-- **Instrumentalness:**
-  - Clusters 2 and 4 stand out for their high instrumentalness, making them distinct from other clusters.
-  - This suggests two types of instrumental music: softer, acoustic (Cluster 2) and energetic, danceable (Cluster 4).
-
-- **Danceability:**
-  - Clusters 0 and 4 are the most danceable, which makes them suitable for playlists focused on movement or rhythm-heavy experiences.
+This analysis highlights how clustering can reveal meaningful groupings within songs based on their audio features, providing insights into the diverse musical characteristics in the dataset.
 
 
 ## **5. Making predictions**
