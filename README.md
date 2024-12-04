@@ -1,5 +1,9 @@
 # Predicting Song Popularity Using Regression Models
 
+
+![Title image](title.webp)
+
+
 ## **Introduction**
 Music has always been an integral part of our lives, and the advent of streaming platforms like Spotify has transformed how we listen to and discover songs. With millions of tracks available, understanding what makes a song popular has become an intriguing challenge. In this project, we aim to predict the **popularity of songs** based on their **audio features** using regression models.
 
