@@ -1,0 +1,7 @@
+pages:
+  script:
+    - pip install -r requirements.txt
+    - python app.py  # Or the script to generate the static files
+  artifacts:
+    paths:
+      - output
