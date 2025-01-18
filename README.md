@@ -73,11 +73,7 @@ By analyzing these features, we aim to uncover insights into the characteristics
 import pandas as pd
 
 # Load data
-df1 = pd.read_csv('data/spotify_data.csv')
-df2 = pd.read_csv('data/spotify_data2.csv')
-
-df = pd.concat([df1, df2])
-df = df1
+df = pd.read_csv('data/spotify_data.csv')
 ```
 
 ## **2. Data Exploration**
