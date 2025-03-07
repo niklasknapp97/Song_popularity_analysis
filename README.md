@@ -31,6 +31,79 @@ By analyzing these features, we aim to uncover insights into the characteristics
 
 ---
 
+## **Files**
+
+- data/
+  - spotify_data.csv: The CSV-file containing the data
+- exploration_files/: The images from the exploration
+- export/
+- gfx
+- calculate.ipynb: 
+- exploration.ipynb
+- LICENSE
+- README.md
+- requirements.txt
+
+---
+
+## **Dependencies**
+
+### **Required Libraries**
+To run the project and reproduce the results, the following Python libraries are required, along with specific versions to ensure compatibility:
+
+1. **pandas** (v1.5.3)  
+   Used for data manipulation and analysis.
+
+2. **seaborn** (v0.12.2)  
+   Provides advanced data visualization capabilities.
+
+3. **matplotlib** (v3.7.1)  
+   A versatile library for creating static, animated, and interactive plots.
+
+4. **scikit-learn** (v1.2.2)  
+   Includes essential tools for machine learning, such as clustering, preprocessing, regression, and model evaluation.
+   - Modules used:
+     - `sklearn.cluster` for clustering algorithms.
+     - `sklearn.preprocessing` for data scaling and encoding.
+     - `sklearn.ensemble` for ensemble models like RandomForest.
+     - `sklearn.model_selection` for cross-validation and grid search.
+     - `sklearn.metrics` for model evaluation metrics.
+     - `sklearn.linear_model` for linear regression models.
+
+5. **joblib** (v1.3.1)  
+   Used for saving and loading models efficiently.
+
+6. **numpy** (v1.24.3)  
+   A fundamental package for numerical computations.
+
+7. **xgboost** (v1.7.6)  
+   A powerful library for gradient boosting, used for classification and regression tasks.
+
+### **Installation Instructions**
+
+1. Install Python 3.7 or higher.
+2. Use the `requirements.txt` file to install the dependencies:
+   ```bash
+   pip install -r requirements.txt
+
+---
+
+## **Acknowledgements**
+
+We would like to extend our heartfelt thanks to Amitansh Joshi, Vedant Das, and Amit Parolkar for generously providing the dataset used in this project. Their efforts in curating and sharing this valuable data have been instrumental in enabling the analysis and modeling conducted as part of this work.
+
+---
+
+## **License**
+
+This project is licensed under the MIT License.
+
+You are free to use, modify, and distribute the code in this repository, provided you include the original copyright notice and license text in any substantial portions of the software.
+
+For more details, please refer to the LICENSE file included in this repository.
+
+---
+
 ## **1. Data Collection**
 
 **Using a Public Dataset for Song Popularity Prediction**
